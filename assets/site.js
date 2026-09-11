@@ -36,93 +36,57 @@
     }, 250);
   };
 
-  const paperFraming = `
-    <section class="paper-abstract" id="paper-framing">
-      <div class="container paper-abstract-grid">
-        <div>
-          <p class="section-kicker">Paper framing</p>
-          <h2>Localize tool reorientation near the endpoint</h2>
-          <div class="paper-abstract-copy">
-            <p>Seven-degree-of-freedom manipulators are kinematically sufficient for arbitrary tool poses, yet local tool reorientation can still move the shoulder, elbow, and forearm through large arcs. RuggedizedWrist adds two compact distal axes so the same orientation change can be performed close to the tool.</p>
-            <p>We quantify this trade-off through task-relevant reorientation coverage under a bounded proximal-arm motion budget, then test the less intuitive dynamic question: whether replacing motion of large proximal links with a lightweight wrist reduces motion-related arm demand despite added mass and coupling.</p>
-            <p>Across six deterministic free-space trials, the active wrist reduces proximal dynamic torque RMS by <strong>97.8%</strong>, proximal joint travel by <strong>99.25%</strong>, and peak whole-system kinetic energy by <strong>31.9%</strong>. Gravity-inclusive total motor torque increases by <strong>11.3–11.7%</strong>, making the system-level trade-off explicit. Contact-rich recordings and force traces are included as a separate exploratory evaluation with its gates and limitations reported.</p>
-          </div>
-          <div class="paper-abstract-meta" aria-label="Key study metrics">
-            <div><strong>5.155 → 94.964%</strong><span>CARE coverage at an 8° proximal budget across the evaluated methods</span></div>
-            <div><strong>0.092 mm</strong><span>maximum reported TCP position error in the deterministic S2/S3 trials</span></div>
-            <div><strong>15 N</strong><span>surface-normal contact objective used in the rendered task recordings</span></div>
-          </div>
-        </div>
-        <figure class="paper-abstract-figure">
-          <img src="/media/results/assembly.png" alt="RuggedizedWrist hardware assembly with the distal wrist and tool attachment" loading="eager">
-          <figcaption>Hardware artifact and simulation evidence are presented together so the mechanism, protocol, and measured effects remain connected.</figcaption>
-        </figure>
-      </div>
-    </section>`;
-
-  const evaluationMap = `
-    <section class="evaluation-map" id="evaluation-map">
-      <div class="container">
-        <p class="section-kicker">Evaluation map</p>
-        <h2>Four linked measurements explain the benefit</h2>
-        <p class="evaluation-intro">The page follows the paper’s causal order: first establish where distal redundancy is useful, then show how it changes proximal motion and dynamics, and finally test the influence of mounting direction and contact conditions.</p>
-        <div class="evaluation-grid">
-          <article class="evaluation-card"><img src="/media/results/care-heatmap.png" alt="CARE reorientation coverage heatmap" loading="eager"><div><h3>01 · Kinematic coverage</h3><p>The CARE envelope measures feasible orientation change while constraining proximal motion. The 8° budget covers <strong>5.155%, 34.447%, 87.209%, and 94.964%</strong> across the four evaluated strategies.</p></div></article>
-          <article class="evaluation-card"><img src="/media/results/s2-locked.png" alt="Locked-wrist S2 dynamic comparison" loading="eager"><div><h3>02 · Proximal motion</h3><p>Matched starts and the same axial 0° → 90° → 0° trajectory isolate the motion moved from the primary arm to the distal wrist. Proximal travel falls by approximately <strong>99.25%</strong>.</p></div></article>
-          <article class="evaluation-card"><img src="/media/results/s3-speed.png" alt="S3 speed scaling dynamics" loading="eager"><div><h3>03 · Dynamic demand</h3><p>Signed proximal dynamic contributions and speed scaling show a <strong>97.8%</strong> RMS reduction, while the separate gravity-inclusive total torque measure increases <strong>11.3–11.7%</strong>.</p></div></article>
-          <article class="evaluation-card"><img src="/media/results/mount-comparison.png" alt="Vertical and horizontal mount configuration comparison" loading="eager"><div><h3>04 · Mounting and contact</h3><p>Vertical and horizontal mounts are shown as configuration comparisons. Hydroelastic traces and task recordings make contact behavior visible without treating exploratory gates as aggregate success rates.</p></div></article>
-        </div>
-      </div>
-    </section>`;
-
   const contactSuite = `
     <section class="contact-suite" id="contact-suite">
       <div class="container">
         <p class="section-kicker">Contact-rich suite</p>
-        <h2>Rendered tasks, force traces, and honest boundaries</h2>
-        <p class="contact-intro">The synchronized videos above show the matched-view comparisons. These additional panels expose the task geometry and hydroelastic signals used to inspect near/far travel, force tracking, and the effect of changing the wrist–tool configuration.</p>
+        <h2>Force tracking and task-scale motion</h2>
+        <p class="contact-intro">These panels unpack the rendered contact recordings after the free-space mechanism study. The force plots show both the nominal target and the measured signal so that contact transients, filtering, and sustained tracking can be read separately.</p>
         <div class="contact-grid">
-          <figure class="contact-card"><img src="/media/results/human-travel.png" alt="Near and far human travel comparison" loading="eager"><figcaption><strong>Near / far travel</strong><span>Human-proximity travel comparison for the longitudinal scan configuration.</span></figcaption></figure>
-          <figure class="contact-card"><img src="/media/results/hydro35-force.png" alt="35 N hydroelastic force trace" loading="eager"><figcaption><strong>Hydroelastic force at 35 N</strong><span>Representative force response from the contact-task sweep.</span></figcaption></figure>
-          <figure class="contact-card"><img src="/media/results/hydro50-force.png" alt="50 N hydroelastic force trace" loading="eager"><figcaption><strong>Hydroelastic force at 50 N</strong><span>Higher-force trace retained as an explicit stress case rather than a success claim.</span></figcaption></figure>
+          <figure class="contact-card"><img src="/media/results/human-travel.png" alt="Near and far human travel comparison" loading="eager"><figcaption><strong>Near-to-far proximal travel</strong><span>The longitudinal scan reduces J1–J7 cumulative travel from 10.355 rad to 3.228 rad, a 68.8% reduction during the reported reorientation window.</span></figcaption></figure>
+          <figure class="contact-card"><img src="/media/results/hydro15-force.png" alt="15 N hydroelastic force trace" loading="eager"><figcaption><strong>15 N force tracking</strong><span>The feedback signal stays close to the 15 N nominal target; the raw physics-step trace preserves short contact transients that the controller filter suppresses.</span></figcaption></figure>
+          <figure class="contact-card"><img src="/media/results/hydro35-force.png" alt="35 N hydroelastic force trace" loading="eager"><figcaption><strong>35 N loading case</strong><span>This higher-load trace is included to show how the same contact-control structure behaves as the nominal normal force increases.</span></figcaption></figure>
+          <figure class="contact-card"><img src="/media/results/hydro50-force.png" alt="50 N hydroelastic force trace" loading="eager"><figcaption><strong>50 N stress case</strong><span>The complete cycle is retained as a stress case. It is descriptive evidence; it does not imply that every force or orientation gate passed.</span></figcaption></figure>
         </div>
       </div>
     </section>
     <section class="limitations" id="limitations">
-      <div class="container limitations-grid"><div><p class="section-kicker">Scope and limitations</p><h2>Read the evidence at the right level</h2></div><p>The free-space S2/S3 results are the controlled mechanism study. The contact-rich panels are exploratory protocol traces: the current evidence bundle records unmet hydro/orientation gates for some conditions and an aborted cardiac run. They are included to make the evaluation inspectable, while claims about contact success remain appropriately bounded.</p></div>
+      <div class="container limitations-grid"><div><p class="section-kicker">Scope and limitations</p><h2>Read the evidence at the right level</h2></div><p>The controlled free-space S2/S3 trials support the proximal dynamic and motion comparisons. Contact-rich panels are exploratory protocol traces: the evidence bundle records unmet hydro/orientation gates for some conditions and an aborted cardiac run. They are shown so the evaluation is inspectable, while contact-success claims remain bounded.</p></div>
     </section>`;
 
   const evidenceLibrary = `
     <section class="section evidence" id="evidence">
       <div class="container">
-        <div class="section-heading"><p class="section-kicker">Evidence library</p><h2>Mount variants, coverage, and new dynamics</h2><p>The selected panels make the evidence trail readable without exposing author identity. They include the revised horizontal mount comparison, the CARE envelope, matched-start dynamics, and force traces from the contact scans.</p></div>
+        <div class="section-heading"><p class="section-kicker">Detailed results</p><h2>Coverage, dynamics, mounting, and contact evidence</h2><p>Every figure is shown at its native aspect ratio with a short reading guide. The captions follow the experiment notes in <code>exp</code>: they distinguish kinematic coverage, proximal dynamic terms, gravity-inclusive motor torque, and exploratory contact traces.</p></div>
         <div class="evidence-grid">
-          <figure class="evidence-card evidence-wide"><img src="/media/results/mount-comparison.png" alt="CARE comparison of baseline vertical and new horizontal wrist mounts" loading="eager"><figcaption><strong>Mount comparison</strong><span>Baseline vertical vs. revised horizontal assembly; reported as a configuration comparison.</span></figcaption></figure>
-          <figure class="evidence-card"><img src="/media/results/care-heatmap.png" alt="Contact-Anchored Reorientation Envelope heatmap" loading="eager"><figcaption><strong>CARE envelope</strong><span>Distal-weighted and arrival-aware strategies broaden the sampled feasible region.</span></figcaption></figure>
-          <figure class="evidence-card"><img src="/media/results/care-coverage.png" alt="CARE coverage as a function of proximal motion budget" loading="eager"><figcaption><strong>Coverage vs. motion budget</strong><span>8° budget coverage: 5.155%, 34.447%, 87.209%, and 94.964%.</span></figcaption></figure>
-          <figure class="evidence-card"><img src="/media/results/s2-active.png" alt="Active-wrist dynamic torque decomposition" loading="eager"><figcaption><strong>S2 mechanism</strong><span>Signed proximal dynamic contributions with the distal wrist active.</span></figcaption></figure>
-          <figure class="evidence-card"><img src="/media/results/s2-total-motor.png" alt="Gravity-inclusive total motor torque comparison" loading="eager"><figcaption><strong>System-level torque cost</strong><span>Gravity-inclusive total motor torque is shown separately from the proximal dynamic reduction.</span></figcaption></figure>
-          <figure class="evidence-card"><img src="/media/results/s3-speed.png" alt="S3 speed scaling comparison" loading="eager"><figcaption><strong>S3 speed scaling</strong><span>Dynamic torque falls with distal allocation; total motor torque is reported separately.</span></figcaption></figure>
-          <figure class="evidence-card"><img src="/media/results/hydro15-force.png" alt="15 N hydroelastic force trace" loading="eager"><figcaption><strong>Contact scan trace</strong><span>Representative 15 N hydroelastic force trace; contact-task limitations remain documented.</span></figcaption></figure>
+          <figure class="evidence-card evidence-wide"><img src="/media/results/care-methods.png" alt="CARE benchmark summary across four inverse-kinematics methods" loading="eager"><figcaption><strong>CARE benchmark: what is being measured</strong><span>Each bar aggregates the same 525 torso points. CARE coverage counts targets that satisfy pose feasibility, a J1–J7 RMS motion budget, and nonnegative geometric clearance; the benchmark therefore measures usable contact-anchored reorientation rather than unconstrained pose reachability.</span></figcaption></figure>
+          <figure class="evidence-card evidence-wide"><img src="/media/results/care-heatmap.png" alt="Contact-Anchored Reorientation Envelope heatmap" loading="eager"><figcaption><strong>CARE envelope in pitch–axial-angle space</strong><span>The four panels show how the feasible orientation region expands when the two distal axes are available and weighted toward the wrist. Bright cells indicate more torso points passing the CARE gate; the proposed arrival plus distal IK keeps the broadest region across the sampled grid.</span></figcaption></figure>
+          <figure class="evidence-card evidence-wide"><img src="/media/results/care-coverage.png" alt="CARE coverage as a function of proximal motion budget" loading="eager"><figcaption><strong>Coverage versus proximal motion budget</strong><span>At an 8° J1–J7 RMS budget, the four methods reach 5.155%, 34.447%, 87.209%, and 94.964% coverage. The curve is cumulative over 75,075 targets and includes infeasible samples, so it should be read as a budgeted task envelope rather than a global workspace guarantee.</span></figcaption></figure>
+          <figure class="evidence-card evidence-wide"><img src="/media/results/mount-comparison.png" alt="Baseline vertical and revised horizontal wrist mount comparison" loading="eager"><figcaption><strong>Mount orientation comparison</strong><span>The vertical and horizontal assemblies are evaluated as complete configurations with different Home seeds. The plot compares coverage, pose feasibility, proximal RMS motion, clearance, and joint-limit failures; it is a configuration-level comparison, not an isolated mount-only ablation.</span></figcaption></figure>
+          <figure class="evidence-card"><img src="/media/results/s2-locked.png" alt="Locked-wrist S2 dynamic torque decomposition" loading="eager"><figcaption><strong>S2 locked baseline</strong><span>With J8/J9 locked, the 7-DoF arm produces the axial 0°→90°→0° motion. The large black dynamic-sum traces show where the proximal arm supplies the reorientation acceleration.</span></figcaption></figure>
+          <figure class="evidence-card"><img src="/media/results/s2-active.png" alt="Active-wrist S2 dynamic torque decomposition" loading="eager"><figcaption><strong>S2 active wrist</strong><span>The same matched-start trajectory is executed with the two distal joints active. Proximal inertia and velocity terms collapse toward zero; the small residual wrist-coupling curves are retained so the mechanism is visible rather than hidden.</span></figcaption></figure>
+          <figure class="evidence-card evidence-wide"><img src="/media/results/s2-total-motor.png" alt="Gravity-inclusive total motor torque comparison" loading="eager"><figcaption><strong>Total motor torque, including gravity</strong><span>This panel must be read separately from the dynamic decomposition: active distal allocation reduces the proximal dynamic term, but configuration-dependent gravity makes the gravity-inclusive total motor RMS increase by about 11.3–11.7% in these trials.</span></figcaption></figure>
+          <figure class="evidence-card evidence-wide"><img src="/media/results/s3-speed.png" alt="S3 speed scaling comparison" loading="eager"><figcaption><strong>Speed scaling across 8, 4, and 2 s one-way segments</strong><span>The locked dynamic RMS grows with 1/T² while the active-wrist dynamic curve stays near zero. Across all three speeds, proximal travel is reduced by about 99.25% and peak whole-robot kinetic energy by about 31.9%; the total motor torque panel remains nearly flat for the active case and should not be replaced by the dynamic-torque claim.</span></figcaption></figure>
+          <figure class="evidence-card evidence-wide"><img src="/media/results/swept-volume-all-tasks.png" alt="Swept-volume comparison across cardiac, near-to-far, cross-waist, and hydroelastic tasks" loading="eager"><figcaption><strong>Task-scale swept-volume comparisons</strong><span>The montage reports the recorded 3D occupancy and total swept volume for cardiac, near-to-far, cross-waist, and 15/35/50 N hydroelastic tasks. The cardiac panel is marked partial in the source record; these volumes are geometric comparisons of the recorded windows, not a claim that every task completed successfully.</span></figcaption></figure>
+          <figure class="evidence-card evidence-wide"><img src="/media/results/hydro15-overview-raw.png" alt="Raw Hydro 15 N torque and probe-tip position overview" loading="eager"><figcaption><strong>Hydro 15 N raw dynamics</strong><span>Raw applied joint-effort traces are plotted with probe-tip position and task events. The dense regions and short spikes are retained because they show contact transients and reorientation timing that a smoothed trend would hide.</span></figcaption></figure>
+          <figure class="evidence-card evidence-wide"><img src="/media/results/hydro15-overview-smoothed.png" alt="Filtered Hydro 15 N torque and probe-tip position overview" loading="eager"><figcaption><strong>Hydro 15 N filtered trend</strong><span>The same run after a 2 Hz zero-phase display filter makes the sustained 7-DoF versus 9-DoF torque trend easier to compare. Filtering is for visualization; it does not replace the raw signal or turn this contact trace into a validated mechanism decomposition.</span></figcaption></figure>
+          <figure class="evidence-card"><img src="/media/results/hydro15-force.png" alt="15 N hydroelastic force trace with raw and filtered signals" loading="eager"><figcaption><strong>Force tracking and contact transients</strong><span>The upper trace is the controller feedback used for force regulation; the lower trace shows raw Newton physics-step force. The nominal target is 15 N, with feedback MAE reported separately from raw peaks.</span></figcaption></figure>
+          <figure class="evidence-card"><img src="/media/results/human-travel.png" alt="Near and far human travel comparison" loading="eager"><figcaption><strong>Longitudinal scan travel</strong><span>Summing absolute J1–J7 changes over the pitch/axial reorientation stages gives 10.355 rad for 7-DoF and 3.228 rad for 9-DoF, making the proximal-motion shift visible joint by joint.</span></figcaption></figure>
         </div>
         <div class="evidence-links"><a href="/docs/evidence/CLAIM_EVIDENCE_MATRIX.md">Claim–evidence matrix</a><a href="/docs/evidence/SWEPT_VOLUME_METHODS.md">Swept-volume methods</a><a href="/docs/evidence/PAPER_DRAFT_EN.md">Methods and limitations</a></div>
       </div>
     </section>`;
 
-  const addOnce = (selector, html, position, reference) => {
-    if (document.querySelector(selector)) return;
-    reference.insertAdjacentHTML(position, html);
-  };
-
   const injectResearchStory = () => {
-    if (document.querySelector("#paper-framing")) return;
-    const hero = document.querySelector(".hero");
+    if (document.querySelector("#contact-suite")) return;
+    // The exported Next payload still contains the old rationale node for hydration;
+    // remove that internal planning section before the public story is displayed.
+    document.querySelector("section.rationale")?.remove();
     const application = document.querySelector("#application");
-    if (hero) hero.insertAdjacentHTML("afterend", paperFraming + evaluationMap);
     if (application) application.insertAdjacentHTML("afterend", contactSuite + evidenceLibrary);
     const nav = document.querySelector(".site-nav > div");
     if (nav && !nav.querySelector("a[href='#evidence']")) {
-      nav.insertAdjacentHTML("beforeend", '<a href="#evidence">Evidence</a>');
+      nav.insertAdjacentHTML("beforeend", '<a href="#evidence">Detailed</a>');
     }
   };
 
