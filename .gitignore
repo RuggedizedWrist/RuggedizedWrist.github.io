@@ -1,0 +1,19 @@
+# Large experiment trees and author-specific source material
+exp/
+IsaacSimulationResults/
+paper_evidence_J9v6_S1S2S3_20260908/
+generated/
+people/
+
+# Keep only the URDF and mesh set used by the public interactive viewer
+models/*
+!models/urdf/
+!models/urdf/ruggedized-wrist.urdf
+!models/urdf/original-stl-v1/
+
+# Local QA artifacts
+qa_test.py
+qa-home.png
+index.pre-hydration.html
+index.with-hydration.html
+.DS_Store
