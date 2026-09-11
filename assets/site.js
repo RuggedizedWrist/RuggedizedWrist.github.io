@@ -120,8 +120,8 @@
     if (hero) hero.insertAdjacentHTML("afterend", paperFraming + evaluationMap);
     if (application) application.insertAdjacentHTML("afterend", contactSuite + evidenceLibrary);
     const nav = document.querySelector(".site-nav > div");
-    if (nav && !nav.querySelector("a[href='#evaluation-map']")) {
-      nav.insertAdjacentHTML("beforeend", '<a href="#evaluation-map">Evidence</a>');
+    if (nav && !nav.querySelector("a[href='#evidence']")) {
+      nav.insertAdjacentHTML("beforeend", '<a href="#evidence">Evidence</a>');
     }
   };
 
