@@ -17,3 +17,5 @@ qa-home.png
 index.pre-hydration.html
 index.with-hydration.html
 .DS_Store
+__next*.txt
+_not-found*.txt
