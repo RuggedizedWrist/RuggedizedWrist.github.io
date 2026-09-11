@@ -2,10 +2,37 @@
   if (window.__ruggedizedWristSiteInitialized) return;
   window.__ruggedizedWristSiteInitialized = true;
   const demoSources = {
-    cardiac: ["/media/heart-7dof.webm", "/media/heart-9dof.webm"],
-    longitudinal: ["/media/near-far-7dof.webm", "/media/near-far-9dof.webm"],
-    waist: ["/media/cross-waist-7dof.webm", "/media/cross-waist-9dof.webm"],
+    cardiac: ["/media/results/mount-v6/cardiac-7dof.mp4", "/media/results/mount-v6/cardiac-9dof.mp4"],
+    longitudinal: ["/media/results/mount-v6/near-to-far-7dof.mp4", "/media/results/mount-v6/near-to-far-9dof.mp4"],
+    waist: ["/media/results/mount-v6/cross-waist-7dof.mp4", "/media/results/mount-v6/cross-waist-9dof.mp4"],
   };
+  const demoPlaybackRate = 1.5;
+
+  const loadDemoVideo = (video) => {
+    if (video.querySelector("source") || !video.dataset.src) return;
+    const source = document.createElement("source");
+    source.src = video.dataset.src;
+    source.type = "video/mp4";
+    video.appendChild(source);
+    video.load();
+  };
+
+  const demoObserver = "IntersectionObserver" in window
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const videos = entry.target.querySelectorAll("video");
+          if (entry.isIntersecting) {
+            videos.forEach((video) => {
+              loadDemoVideo(video);
+              video.playbackRate = demoPlaybackRate;
+              video.play().catch(() => {});
+            });
+          } else {
+            videos.forEach((video) => video.pause());
+          }
+        });
+      }, { rootMargin: "240px 0px", threshold: 0.05 })
+    : null;
 
   const synchronize = (group) => {
     const videos = Array.from(group.querySelectorAll("video"));
@@ -54,23 +81,26 @@
 
       images.forEach((image, index) => {
         const video = document.createElement("video");
-        video.autoplay = true;
         video.muted = true;
         video.loop = true;
         video.playsInline = true;
         video.preload = "metadata";
         video.poster = image.currentSrc || image.src;
+        video.dataset.src = sources[index];
+        video.defaultPlaybackRate = demoPlaybackRate;
+        video.playbackRate = demoPlaybackRate;
         video.setAttribute("aria-label", image.alt);
-
-        const source = document.createElement("source");
-        source.src = sources[index];
-        source.type = "video/webm";
-        video.appendChild(source);
         image.replaceWith(video);
       });
 
       group.dataset.videoReady = "true";
+      group.dataset.playbackNote = "Corrected horizontal-v6 mounting · 1.5× playback";
       synchronize(group);
+      if (demoObserver) demoObserver.observe(group);
+      else group.querySelectorAll("video").forEach((video) => {
+        loadDemoVideo(video);
+        video.play().catch(() => {});
+      });
     });
   };
 
@@ -132,7 +162,7 @@
   const evidenceLibrary = `
     <section class="section evidence" id="evidence">
       <div class="container">
-        <div class="section-heading"><p class="section-kicker">Detailed results</p><h2>Coverage, dynamics, mounting, and contact evidence</h2><p>Every figure is shown at its native aspect ratio with a short reading guide. The captions follow the experiment notes in <code>exp</code>: they distinguish kinematic coverage, proximal dynamic terms, gravity-inclusive motor torque, and exploratory contact traces.</p></div>
+        <div class="section-heading"><p class="section-kicker">Detailed results</p><h2>Coverage, dynamics, mounting, and contact evidence</h2><p>Every figure is shown at its native aspect ratio with a reading guide. The captions distinguish kinematic coverage, proximal dynamic terms, gravity-inclusive motor torque, and exploratory contact traces.</p></div>
         <div class="evidence-grid">
           <figure class="evidence-card evidence-wide"><img src="/media/results/care-methods.png" alt="CARE benchmark summary across four inverse-kinematics methods" loading="lazy" decoding="async"><figcaption><strong>CARE benchmark: what is being measured</strong><span>Each bar aggregates the same 525 torso points. CARE coverage counts targets that satisfy pose feasibility, a J1–J7 RMS motion budget, and nonnegative geometric clearance; the benchmark therefore measures usable contact-anchored reorientation rather than unconstrained pose reachability.</span></figcaption></figure>
           <figure class="evidence-card evidence-wide"><img src="/media/results/care-heatmap.png" alt="Contact-Anchored Reorientation Envelope heatmap" loading="lazy" decoding="async"><figcaption><strong>CARE envelope in pitch–axial-angle space</strong><span>The four panels show how the feasible orientation region expands when the two distal axes are available and weighted toward the wrist. Bright cells indicate more torso points passing the CARE gate; the proposed arrival plus distal IK keeps the broadest region across the sampled grid.</span></figcaption></figure>
@@ -148,7 +178,29 @@
           <figure class="evidence-card"><img src="/media/results/hydro15-force.png" alt="15 N hydroelastic force trace with raw and filtered signals" loading="lazy" decoding="async"><figcaption><strong>Force tracking and contact transients</strong><span>The upper trace is the controller feedback used for force regulation; the lower trace shows raw Newton physics-step force. The nominal target is 15 N, with feedback MAE reported separately from raw peaks.</span></figcaption></figure>
           <figure class="evidence-card"><img src="/media/results/human-travel.png" alt="Near and far human travel comparison" loading="lazy" decoding="async"><figcaption><strong>Longitudinal scan travel</strong><span>Summing absolute J1–J7 changes over the pitch/axial reorientation stages gives 10.355 rad for 7-DoF and 3.228 rad for 9-DoF, making the proximal-motion shift visible joint by joint.</span></figcaption></figure>
         </div>
-        <div class="evidence-links"><a href="/docs/evidence/CLAIM_EVIDENCE_MATRIX.md">Claim–evidence matrix</a><a href="/docs/evidence/SWEPT_VOLUME_METHODS.md">Swept-volume methods</a><a href="/docs/evidence/PAPER_DRAFT_EN.md">Methods and limitations</a></div>
+        <section class="methods-inline" id="methods" aria-labelledby="methods-title">
+          <div class="methods-heading"><p class="section-kicker">Methods on this page</p><h3 id="methods-title">How the reported quantities were obtained</h3><p>The protocols and evidence boundaries are written here so every result can be interpreted without opening a separate document.</p></div>
+          <div class="methods-grid">
+            <article><strong>Corrected wrist mounting</strong><p>All demonstration videos use the <code>horizontal_v6_centered_j9_fixed_housing</code> assembly. The J9 motor housing is attached to J8, while the output fixture and probe rotate about the corrected central J9 axis. The validated wrist-to-flange translation is [−0.05, −2.8, 63.8993] mm.</p></article>
+            <article><strong>CARE protocol</strong><p>The Contact-Anchored Reorientation Envelope samples 525 torso contact points and 143 orientations per point, for 75,075 targets. A target counts only when pose error is at most 2 mm and 2°, J1–J7 RMS motion stays within the stated budget, and geometric clearance is nonnegative. At the 8° budget, coverage is 5.155%, 34.447%, 87.209%, and 94.964% for the four methods.</p></article>
+            <article><strong>Matched free-space protocol</strong><p>Locked- and active-wrist trials use the same physical model, initial state, and axial 0°→90°→0° trajectory. One deterministic run is reported at each 8, 4, and 2 s one-way duration. Motion-related dynamic torque is separated from gravity-inclusive total motor torque; the latter increases by 11.3–11.7% in these configurations.</p></article>
+            <article><strong>Swept volume and contact scope</strong><p>Swept volume is the union of the arm geometry occupied over each recorded analysis window. Hydroelastic scans use a compliant pressure-field contact model rather than deforming tissue or a patient-specific finite-element model. Raw force, filtered feedback, motion, and pose gates are kept separate when determining whether a run supports a quantitative claim.</p></article>
+          </div>
+          <div class="protocol-table-wrap">
+            <table class="protocol-table">
+              <caption>Contact-rich task outcomes for the corrected mounting</caption>
+              <thead><tr><th>Task</th><th>Recorded outcome</th><th>J1–J7 travel</th><th>Command-torque RMS</th></tr></thead>
+              <tbody>
+                <tr><td>Cardiac</td><td>Aborted before reorientation; diagnostic video only</td><td>Not claimed</td><td>Not claimed</td></tr>
+                <tr><td>Near-to-far</td><td>Complete; both systems below the supplementary 5° orientation reference</td><td>68.82% lower</td><td>4.32% higher</td></tr>
+                <tr><td>Cross-waist</td><td>Complete; active wrist exceeds the supplementary 5° reference</td><td>84.58% lower</td><td>2.45% higher</td></tr>
+                <tr><td>Hydro 15 N</td><td>Complete; both systems exceed the supplementary 5° reference</td><td>63.94% lower</td><td>1.43% lower</td></tr>
+                <tr><td>Hydro 35 N</td><td>Complete; both systems exceed the supplementary 5° reference</td><td>63.99% lower</td><td>1.74% lower</td></tr>
+                <tr><td>Hydro 50 N</td><td>Force and orientation gates unmet; descriptive trace only</td><td>63.79% lower, descriptive</td><td>No validated benefit</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
       </div>
     </section>`;
 
@@ -162,7 +214,10 @@
     if (application) application.insertAdjacentHTML("afterend", contactSuite + evidenceLibrary);
     const nav = document.querySelector(".site-nav > div");
     if (nav && !nav.querySelector("a[href='#evidence']")) {
-      nav.insertAdjacentHTML("beforeend", '<a href="#evidence">Detailed</a>');
+      nav.insertAdjacentHTML("beforeend", '<a href="#evidence">Evidence</a>');
+    }
+    if (nav && !nav.querySelector("a[href='#methods']")) {
+      nav.insertAdjacentHTML("beforeend", '<a href="#methods">Methods</a>');
     }
   };
 
