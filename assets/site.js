@@ -7,6 +7,24 @@
     waist: ["/media/results/mount-v6/cross-waist-7dof.mp4", "/media/results/mount-v6/cross-waist-9dof.mp4"],
   };
   const demoPlaybackRate = 1.5;
+  const originalMeshRepresentatives = {
+    "Base.stl": "wrist_base.stl",
+    "mountToArm.stl": "mount_to_arm.stl",
+    "_3D______5044_5600_6709_2023_10_245047.stl": "pitch_motor.stl",
+    "PitchMotorPulleyConnector.stl": "pitch_pulley_connector.stl",
+    "PitchMotorPulley.stl": "pitch_pulley.stl",
+    "RollMotorBracket.stl": "roll_motor_bracket.stl",
+    "_______1.stl": "roll_motor_housing.stl",
+    "______44380227.stl": "roll_output.stl",
+    "gecko-original.stl": "gecko_attachment.stl",
+  };
+
+  const originalMeshUrl = (url) => {
+    if (!url.includes("/original-stl-v1/")) return url;
+    const filename = decodeURIComponent(url.split("/").pop());
+    const optimized = originalMeshRepresentatives[filename] || "empty.stl";
+    return `/models/urdf/original-web-meshes-v1/${optimized}`;
+  };
 
   const loadDemoVideo = (video) => {
     if (video.querySelector("source") || !video.dataset.src) return;
@@ -121,18 +139,116 @@
     const canvas = viewer.closest(".urdf-canvas");
     const status = canvas?.querySelector(".viewer-status");
     const controls = viewer.closest(".urdf-viewer")?.querySelectorAll("input, .reset-joints") || [];
+    const jointSpecs = [
+      { name: "wrist_pitch_joint", input: controls[0] },
+      { name: "wrist_roll_joint", input: controls[1] },
+    ];
+    const reset = controls[2];
+
+    const syncJointControls = () => {
+      const values = viewer.jointValues || {};
+      jointSpecs.forEach(({ name, input }) => {
+        if (!input || !Number.isFinite(values[name])) return;
+        const degrees = Math.round(values[name] * 180 / Math.PI);
+        input.value = String(degrees);
+        const output = input.closest("label")?.querySelector("output");
+        if (output) output.textContent = `${degrees}°`;
+      });
+    };
+
+    jointSpecs.forEach(({ name, input }) => {
+      input?.addEventListener("input", () => {
+        const degrees = Number(input.value);
+        viewer.setJointValue(name, degrees * Math.PI / 180);
+        const output = input.closest("label")?.querySelector("output");
+        if (output) output.textContent = `${degrees}°`;
+      });
+    });
+    reset?.addEventListener("click", () => {
+      jointSpecs.forEach(({ name }) => viewer.setJointValue(name, 0));
+      syncJointControls();
+    });
+    viewer.addEventListener("angle-change", syncJointControls);
+    viewer.addEventListener("manipulate-start", (event) => {
+      jointSpecs.forEach(({ name, input }) => input?.closest("label")?.classList.toggle("active", name === event.detail));
+    });
+    viewer.addEventListener("manipulate-end", () => {
+      jointSpecs.forEach(({ input }) => input?.closest("label")?.classList.remove("active"));
+      syncJointControls();
+    });
+
     controls.forEach((control) => { control.disabled = true; });
     if (status) status.innerHTML = "<span></span>Loading interactive wrist model…";
 
     viewer.addEventListener("geometry-loaded", () => {
       controls.forEach((control) => { control.disabled = false; });
+      syncJointControls();
+
+      const three = window.__ruggedizedWristThree;
+      if (three && viewer.robot) {
+        viewer.renderer.shadowMap.enabled = false;
+        viewer.plane.visible = false;
+        viewer.ambientLight.intensity = 0.68;
+        viewer.directionalLight.intensity = 1.15;
+        viewer.robot.traverse((object) => {
+          if (!object.isMesh || !object.material) return;
+          const source = Array.isArray(object.material) ? object.material[0] : object.material;
+          const material = new three.MeshPhongMaterial({
+            color: source.color,
+            shininess: 4,
+            specular: 0x202b34,
+          });
+          material.name = source.name;
+          object.material = material;
+          object.castShadow = false;
+          object.receiveShadow = false;
+        });
+
+        viewer.world.updateMatrixWorld(true);
+        const bounds = new three.Box3().setFromObject(viewer.robot);
+        const center = bounds.getCenter(new three.Vector3());
+        const size = bounds.getSize(new three.Vector3());
+        const span = Math.max(size.x, size.y, size.z);
+        const direction = new three.Vector3(1.35, 1.65, 1.05).normalize();
+        viewer.controls.target.copy(center);
+        viewer.camera.position.copy(center).addScaledVector(direction, 1.72 * span);
+        viewer.camera.fov = 42;
+        viewer.camera.near = Math.max(span / 100, 1e-4);
+        viewer.camera.far = Math.max(100 * span, 10);
+        viewer.camera.updateProjectionMatrix();
+        viewer.controls.minDistance = 0.35 * span;
+        viewer.controls.maxDistance = 12 * span;
+        viewer.controls.update();
+        viewer.redraw();
+      }
+
       if (status) {
         status.classList.add("ready");
-        status.innerHTML = "<span></span>Kinematic URDF loaded · 2 movable joints";
+        status.innerHTML = "<span></span>Original Onshape URDF loaded · 2 movable joints";
       }
     }, { once: true });
 
-    viewer.setAttribute("urdf", viewer.dataset.urdf);
+    const loadOriginalUrdf = () => {
+      if (viewer.dataset.originalMeshLoader !== "true") {
+        const loadMesh = viewer.loadMeshFunc;
+        if (typeof loadMesh === "function") {
+          viewer.loadMeshFunc = (url, manager, done) => loadMesh(originalMeshUrl(url), manager, done);
+          viewer.dataset.originalMeshLoader = "true";
+        }
+      }
+      viewer.setAttribute("urdf", viewer.dataset.urdf);
+    };
+
+    if (customElements.get("urdf-manipulator")) loadOriginalUrdf();
+    else customElements.whenDefined("urdf-manipulator").then(loadOriginalUrdf);
+
+    window.addEventListener("urdf-runtime-error", () => {
+      controls.forEach((control) => { control.disabled = true; });
+      if (status) {
+        status.classList.add("error");
+        status.innerHTML = "<span></span>Interactive model could not be initialized";
+      }
+    }, { once: true });
   };
 
   const contactSuite = `
