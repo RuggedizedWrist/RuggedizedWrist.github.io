@@ -21,14 +21,15 @@
     ? new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const videos = entry.target.querySelectorAll("video");
+          entry.target.dataset.inViewport = entry.isIntersecting ? "true" : "false";
           if (entry.isIntersecting) {
             videos.forEach((video) => {
               loadDemoVideo(video);
               video.playbackRate = demoPlaybackRate;
-              video.play().catch(() => {});
             });
+            entry.target.__demoController?.play();
           } else {
-            videos.forEach((video) => video.pause());
+            entry.target.__demoController?.pause();
           }
         });
       }, { rootMargin: "240px 0px", threshold: 0.05 })
@@ -37,38 +38,45 @@
   const synchronize = (group) => {
     const videos = Array.from(group.querySelectorAll("video"));
     if (videos.length !== 2) return;
-    let updating = false;
-    const setTime = (time) => {
-      updating = true;
+    let restarting = false;
+    const play = () => {
       videos.forEach((video) => {
-        if (Number.isFinite(video.duration)) {
-          video.currentTime = Math.min(time, Math.max(0, video.duration - 0.02));
-        }
+        video.playbackRate = demoPlaybackRate;
+        video.play().catch(() => {});
       });
-      updating = false;
     };
-    videos.forEach((video) => {
-      video.addEventListener("play", () => {
-        if (updating) return;
-        videos.forEach((peer) => {
-          if (peer !== video && peer.paused) peer.play().catch(() => {});
-        });
+    const pause = () => videos.forEach((video) => video.pause());
+    const restart = () => {
+      if (restarting) return;
+      restarting = true;
+      videos.forEach((video) => {
+        if (video.readyState > 0) video.currentTime = 0;
       });
-      video.addEventListener("pause", () => {
-        if (updating) return;
-        videos.forEach((peer) => {
-          if (peer !== video && !peer.paused) peer.pause();
-        });
+      window.requestAnimationFrame(() => {
+        restarting = false;
+        if (group.dataset.inViewport === "true") play();
       });
-      video.addEventListener("seeking", () => {
-        if (!updating) setTime(video.currentTime);
-      });
-    });
+    };
+
+    videos.forEach((video) => video.addEventListener("ended", restart));
+    group.__demoController = { play, pause };
+
     window.setInterval(() => {
-      if (videos.some((video) => video.paused || video.seeking)) return;
+      if (restarting || group.dataset.inViewport !== "true") return;
+      if (videos.some((video) => video.readyState < 2 || !Number.isFinite(video.duration))) return;
+
+      const loopAt = Math.min(...videos.map((video) => video.duration)) - 0.12;
+      if (videos.some((video) => video.ended) || videos[0].currentTime >= loopAt) {
+        restart();
+        return;
+      }
+
+      if (videos.some((video) => video.paused)) play();
       const drift = videos[1].currentTime - videos[0].currentTime;
-      if (Math.abs(drift) > 0.08) videos[1].currentTime = videos[0].currentTime;
-    }, 250);
+      if (Math.abs(drift) > 0.12 && !videos[1].seeking) {
+        videos[1].currentTime = Math.min(videos[0].currentTime, videos[1].duration - 0.12);
+      }
+    }, 100);
   };
 
   const hydrateDemoVideos = () => {
@@ -82,7 +90,7 @@
       images.forEach((image, index) => {
         const video = document.createElement("video");
         video.muted = true;
-        video.loop = true;
+        video.loop = false;
         video.playsInline = true;
         video.preload = "metadata";
         video.poster = image.currentSrc || image.src;
@@ -97,14 +105,15 @@
       group.dataset.playbackNote = "Corrected horizontal-v6 mounting · 1.5× playback";
       synchronize(group);
       if (demoObserver) demoObserver.observe(group);
-      else group.querySelectorAll("video").forEach((video) => {
-        loadDemoVideo(video);
-        video.play().catch(() => {});
-      });
+      else {
+        group.dataset.inViewport = "true";
+        group.querySelectorAll("video").forEach(loadDemoVideo);
+        group.__demoController?.play();
+      }
     });
   };
 
-  const enableDeferredUrdf = () => {
+  const enableUrdf = () => {
     const viewer = document.querySelector("urdf-manipulator[data-urdf]");
     if (!viewer || viewer.dataset.loadUiReady === "true") return;
     viewer.dataset.loadUiReady = "true";
@@ -113,32 +122,17 @@
     const status = canvas?.querySelector(".viewer-status");
     const controls = viewer.closest(".urdf-viewer")?.querySelectorAll("input, .reset-joints") || [];
     controls.forEach((control) => { control.disabled = true; });
-
-    const prompt = document.createElement("div");
-    prompt.className = "urdf-load-prompt";
-    prompt.innerHTML = `
-      <img src="/media/results/assembly.png" alt="RuggedizedWrist assembly overview">
-      <div><strong>Explore the full wrist assembly</strong><span>The original high-resolution URDF loads only when requested, keeping the project page responsive.</span></div>
-      <button type="button">Load interactive URDF</button>`;
-    canvas?.appendChild(prompt);
-
-    if (status) status.innerHTML = "<span></span>Interactive model ready on request";
-
-    prompt.querySelector("button")?.addEventListener("click", () => {
-      prompt.classList.add("loading");
-      const button = prompt.querySelector("button");
-      if (button) {
-        button.disabled = true;
-        button.textContent = "Loading model…";
-      }
-      if (status) status.innerHTML = "<span></span>Loading high-resolution URDF geometry…";
-      viewer.setAttribute("urdf", viewer.dataset.urdf);
-    });
+    if (status) status.innerHTML = "<span></span>Loading interactive wrist model…";
 
     viewer.addEventListener("geometry-loaded", () => {
-      prompt.remove();
       controls.forEach((control) => { control.disabled = false; });
+      if (status) {
+        status.classList.add("ready");
+        status.innerHTML = "<span></span>Kinematic URDF loaded · 2 movable joints";
+      }
     }, { once: true });
+
+    viewer.setAttribute("urdf", viewer.dataset.urdf);
   };
 
   const contactSuite = `
@@ -223,7 +217,7 @@
 
   const initialize = () => {
     hydrateDemoVideos();
-    enableDeferredUrdf();
+    enableUrdf();
   };
 
   window.setTimeout(() => {
