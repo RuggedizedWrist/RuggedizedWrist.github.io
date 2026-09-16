@@ -37,7 +37,7 @@ a:hover,a:focus-visible{color:var(--blue-dark)}
 .model-panel,.metrics,.evidence-card{background:var(--paper);border:1px solid var(--line);box-shadow:0 18px 50px #163a5d12}
 .urdf-canvas{background:linear-gradient(140deg,#e3ebf2,#b9c8d4)}
 .joint-panel{background:#f3f7fb;border-color:var(--line)}
-.joint-panel-heading h3,.demo h3,.application-copy h3,footer h2{color:var(--ink);font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:-.04em}
+.joint-panel-heading h3,.demo h3,footer h2{color:var(--ink);font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:-.04em}
 .joint-control{border-color:var(--line)}
 .joint-control.active{border-color:var(--blue)}
 .joint-control-title output{color:var(--blue)}
@@ -74,10 +74,6 @@ a:hover,a:focus-visible{color:var(--blue-dark)}
 .track{background:#dce6ef}
 .track i{background:#8298ad}
 .metric-value.nine .track i{background:var(--teal)}
-.application{background:var(--page)}
-.application-copy{border-color:var(--blue)}
-.application-copy p{color:var(--muted)}
-.application-copy a{color:var(--blue);border-color:var(--blue)}
 footer{background:#edf3f8;border-top:1px solid var(--line)}
 .source-links{border-color:var(--line)}
 .source-links li+li{border-color:var(--line)}

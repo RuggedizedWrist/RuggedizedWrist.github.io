@@ -322,8 +322,8 @@
     // remove that internal planning section before the public story is displayed.
     document.querySelector("section.rationale")?.remove();
     document.querySelector("#evidence")?.remove();
-    const application = document.querySelector("#application");
-    if (application) application.insertAdjacentHTML("afterend", contactSuite + evidenceLibrary);
+    const storyAnchor = document.querySelector("#results");
+    if (storyAnchor) storyAnchor.insertAdjacentHTML("afterend", contactSuite + evidenceLibrary);
     const nav = document.querySelector(".site-nav > div");
     if (nav && !nav.querySelector("a[href='#evidence']")) {
       nav.insertAdjacentHTML("beforeend", '<a href="#evidence">Evidence</a>');
