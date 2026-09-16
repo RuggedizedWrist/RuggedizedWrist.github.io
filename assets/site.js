@@ -13,7 +13,9 @@
     "_3D______5044_5600_6709_2023_10_245047.stl": "pitch_motor.stl",
     "PitchMotorPulleyConnector.stl": "pitch_pulley_connector.stl",
     "PitchMotorPulley.stl": "pitch_pulley.stl",
-    "RollMotorBracket.stl": "roll_motor_bracket.stl",
+    // Double-blind review derivative: the recessed BDML mark is filled by a
+    // flush panel. Keep the original web mesh in the repository for post-acceptance restore.
+    "RollMotorBracket.stl": "roll_motor_bracket_anonymous.stl",
     "_______1.stl": "roll_motor_housing.stl",
     "______44380227.stl": "roll_output.stl",
     "gecko-original.stl": "gecko_attachment.stl",
