@@ -31,6 +31,7 @@
     <a href="#overview">Overview</a>
     <a href="#video">Video</a>
     <a href="#hardware">Hardware</a>
+    <a href="#model" data-level="2">Interactive model</a>
     <a href="#recordings" data-level="2">Hardware recordings</a>
     <a href="#simulation" data-level="2">Simulation</a>
     <a href="#care">Reorientation coverage</a>
@@ -101,7 +102,7 @@
         <p>DistalShift adds local tilt and axial rotation between a commercial 7-DoF arm and the tool. The same assembly is compared with the wrist held, so the proximal arm supplies the reorientation, and with the wrist actuated, so more of that reorientation stays near the probe.</p>
       </div>
       <figure>
-        <div class="frame"><img src="media/figures/overview.png" alt="Contact roll and contact pitch illustrations beside swept-volume and torque-excursion charts for locked 7-DoF and active 9-DoF wrists."></div>
+        <div class="plate"><img src="media/figures/overview.svg" alt="Contact roll and contact pitch illustrations beside swept-volume and torque-excursion charts for locked 7-DoF and active 9-DoF wrists."></div>
         <figcaption>Contact probe reorientation with a locked 7-DoF or active 9-DoF distal wrist. The charts show incremental proximal swept volume reconstructed from hardware trajectories and baseline-subtracted torque excursion. Bars are means; error bars are sample standard deviations, with n = 3 per condition.</figcaption>
       </figure>
     </section>
@@ -139,6 +140,41 @@
         <dt>Probe</dt><dd>Butterfly iQ+ on an ABDFAN ultrasound-training phantom</dd>
         <dt>Rates</dt><dd>Local wrist control at 500 Hz; host references and logging near 100 Hz</dd>
       </dl>
+
+      <h3 id="model">Interactive model</h3>
+      <div class="measure">
+        <p>Drag a link to move its joint, or use the sliders. Drag empty space to orbit, and scroll or pinch to zoom. The viewer uses the original Onshape URDF, with the same joint axes as the hardware.</p>
+      </div>
+      <div class="model-panel">
+        <div class="urdf-viewer">
+          <div class="urdf-canvas">
+            <urdf-manipulator data-urdf="/models/urdf/ruggedized-wrist.urdf" up="+Z" ambient-color="#b7c0c7" highlight-color="#797af2" auto-redraw aria-label="Interactive URDF model of the DistalShift wrist"></urdf-manipulator>
+            <div class="viewer-status" role="status"><span></span>Loading interactive wrist model…</div>
+            <div class="viewer-help">
+              <span>Drag a movable part to actuate its joint</span>
+              <span>Drag empty space to orbit · wheel or pinch to zoom</span>
+            </div>
+          </div>
+          <aside class="joint-panel" aria-label="URDF joint controls">
+            <p class="kicker">Joint state</p>
+            <h3>Move the two distal axes</h3>
+            <p>The sliders command the same joints that can be dragged in the view.</p>
+            <label class="joint-control">
+              <span class="joint-control-title"><strong>J8 · Pitch</strong><output>0°</output></span>
+              <input type="range" min="-90" max="90" step="1" aria-label="J8 pitch angle" value="0">
+              <span class="joint-scale"><span>−90°</span><span>local Y axis</span><span>+90°</span></span>
+            </label>
+            <label class="joint-control">
+              <span class="joint-control-title"><strong>J9 · Roll</strong><output>0°</output></span>
+              <input type="range" min="-180" max="180" step="1" aria-label="J9 roll angle" value="0">
+              <span class="joint-scale"><span>−180°</span><span>local Z axis</span><span>+180°</span></span>
+            </label>
+            <button type="button" class="reset-joints">Reset both joints</button>
+            <p class="urdf-note">Pitch and roll stay directly controllable. The displayed meshes are the detailed assembly used by the original URDF.</p>
+          </aside>
+        </div>
+      </div>
+
       <figure class="gallery">
         <img src="media/figures/motion-7dof-pitch.png" alt="Locked wrist during a pitch motion over the ultrasound phantom.">
         <img src="media/figures/motion-9dof-pitch.png" alt="Active wrist during a pitch motion over the ultrasound phantom.">
@@ -237,7 +273,7 @@
         <p>On the 0° assembly, sampled coverage was 6.74%, 29.90%, 71.67%, and 88.50% for locked 7-DoF, generic 9-DoF, distal-weighted 9-DoF, and the proposed arrival-aware strategy. On the 90° assembly the corresponding values were 5.15%, 34.45%, 87.21%, and 94.96%. Coverage therefore depends on how the extra joints are used and how the arm arrives, not only on adding two degrees of freedom. Proposed-method coverage was 6.46 percentage points higher for the 90° assembly.</p>
       </div>
       <figure>
-        <div class="frame"><img src="media/figures/care.png" alt="CARE comparison of 0 degree and 90 degree mounts, including coverage heatmaps and bar charts for four inverse-kinematics methods."></div>
+        <div class="plate"><img src="media/figures/care.svg" alt="CARE comparison of 0 degree and 90 degree mounts, including coverage heatmaps and bar charts for four inverse-kinematics methods."></div>
         <figcaption>CARE comparison of the original 0° and transverse 90° mounts. Heatmaps use a common 0–100% scale. Archived seeds and hardware revisions differ, so this is a complete-assembly comparison rather than an isolated mount-angle ablation.</figcaption>
       </figure>
     </section>
@@ -272,11 +308,11 @@
       <p class="caption">† Active ±30° contact pitch includes internal pauses. Pauses stay in the swept-volume interval and are excluded from the motion-only torque columns.</p>
 
       <figure>
-        <div class="frame"><img src="media/figures/torque.png" alt="Measured proximal torque for contact roll and the square task, plus per-joint peak torque."></div>
+        <div class="plate"><img src="media/figures/torque.svg" alt="Measured proximal torque for contact roll and the square task, plus per-joint peak torque."></div>
         <figcaption>Measured proximal torque. Raw joint-2 traces for contact roll and the square task are from repeat 1, without smoothing or time warping. The bar chart is per-joint contact-roll peak torque, mean ± sample SD, n = 3. Joint 2 carries the largest absolute load and does not represent all seven joints.</figcaption>
       </figure>
       <figure>
-        <div class="frame"><img src="media/figures/contact-roll.png" alt="Contact-roll joint torque, peak torque, force regulation, and orientation tracking for locked and active wrists."></div>
+        <div class="plate"><img src="media/figures/contact-roll.png" alt="Contact-roll joint torque, peak torque, force regulation, and orientation tracking for locked and active wrists."></div>
         <figcaption>Contact roll in more detail. Peak proximal torque falls from 48.94 ± 0.99 N·m to 25.27 ± 0.09 N·m. Processed compression stays near the 15 N setpoint, while forward-kinematics orientation error is larger with the wrist active.</figcaption>
       </figure>
 
@@ -345,6 +381,15 @@
     </button>
     <video controls playsinline></video>
   </div>
-  <script src="assets/site.js"></script>
+  <script src="/_next/static/chunks/turbopack-1tgm-5axp195g.js" defer></script>
+  <script src="/_next/static/chunks/240s5a6-rup44.js" defer></script>
+  <script src="/_next/static/chunks/2dsm156jex-1e.js" defer></script>
+  <script src="assets/urdf-data.js" defer></script>
+  <script src="assets/urdf-data-part-1.js" defer></script>
+  <script src="assets/urdf-data-part-2.js" defer></script>
+  <script src="assets/urdf-data-part-3.js" defer></script>
+  <script src="assets/urdf-data-part-4.js" defer></script>
+  <script src="assets/urdf-element.js" defer></script>
+  <script src="assets/site.js" defer></script>
 </body>
 </html>
