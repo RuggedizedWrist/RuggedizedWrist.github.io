@@ -1,1 +1,350 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/_next/static/chunks/14d9cvodceqxo.css" data-precedence="next"/><link rel="stylesheet" href="/assets/anonymous.css?v=20260916-anon3"/><script src="/_next/static/chunks/turbopack-1tgm-5axp195g.js?v=20260912-standalone1" defer=""></script><script src="/_next/static/chunks/240s5a6-rup44.js?v=20260912-standalone1" defer=""></script><script src="/_next/static/chunks/2dsm156jex-1e.js?v=20260912-standalone1" defer=""></script><script src="/assets/urdf-data.js?v=20260916-sandbox2" defer=""></script><script src="/assets/urdf-data-part-1.js?v=20260916-sandbox2" defer=""></script><script src="/assets/urdf-data-part-2.js?v=20260916-sandbox2" defer=""></script><script src="/assets/urdf-data-part-3.js?v=20260916-sandbox2" defer=""></script><script src="/assets/urdf-data-part-4.js?v=20260916-sandbox2" defer=""></script><script src="/assets/urdf-element.js?v=20260916-sandbox2" defer=""></script><title>RuggedizedWrist — Distal redundancy for contact-rich reorientation</title><meta name="description" content="Anonymous project page for a two-axis robotic wrist evaluated in contact-rich simulation tasks."/><meta property="og:title" content="RuggedizedWrist"/><meta property="og:description" content="A two-axis distal wrist that reallocates local reorientation away from the proximal arm."/><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="RuggedizedWrist"/><meta name="twitter:description" content="A two-axis distal wrist that reallocates local reorientation away from the proximal arm."/><link rel="icon" href="/favicon.ico?favicon.3755p-vfswsm8.ico" sizes="64x64" type="image/x-icon"/><link rel="icon" href="/icon.png?icon.1s8coz6bxu5p_.png" sizes="512x512" type="image/png"/><link rel="apple-touch-icon" href="/apple-icon.png?apple-icon.3t5emei0vw-fw.png" sizes="180x180" type="image/png"/></head><body><main><nav class="site-nav" aria-label="Primary navigation"><a class="site-name" href="#top">RuggedizedWrist</a><div><a href="#hardware">Hardware</a><a href="#experiments">Experiments</a><a href="#results">Results</a></div></nav><header class="hero container" id="top"><p class="venue">Open-source robotic hardware and simulation study</p><h1>RuggedizedWrist</h1><h2>Two distal degrees of freedom for contact-rich tool reorientation</h2><p class="affiliation">Anonymous submission · ICRA 2027</p><div class="hero-links"><a href="#experiments">Simulation videos</a></div><p class="review-resource-note">Source code and CAD links are temporarily unavailable during double-blind review.</p><p class="abstract">A seven-axis robot can realize a six-dimensional end-effector pose, yet reorienting a contact tool may still require large motions of its long links. RuggedizedWrist adds two compact rotational axes at the tool. The simulations below compare the original 7-DoF arm with the 9-DoF system under the same operational-space pose and 15 N surface-normal force objectives.</p></header><section class="section container" id="hardware"><div class="section-heading"><p class="section-kicker">Hardware</p><h2>Interactive original URDF assembly</h2><p>Explore the original Onshape URDF assembly, including its pitch housing, roll stage, and supplied Gecko attachment. Both distal joints remain directly controllable in the viewport.</p></div><div class="model-panel"><div class="urdf-viewer"><div class="urdf-canvas"><urdf-manipulator data-urdf="/models/urdf/ruggedized-wrist.urdf?v=20260912-original1" up="+Z" ambient-color="#b7c0c7" highlight-color="#8c1515" auto-redraw="" aria-label="Interactive URDF model of the two-axis RuggedizedWrist with Gecko output attachment"></urdf-manipulator><div class="viewer-status " role="status"><span></span>Loading interactive wrist model…</div><div class="viewer-help"><span>Drag a movable part to actuate its joint</span><span>Drag empty space to orbit · wheel/pinch to zoom</span></div></div><aside class="joint-panel" aria-label="URDF joint controls"><div class="joint-panel-heading"><p class="section-kicker">Joint state</p><h3>Move the two distal axes</h3><p>The sliders command the same URDF joints that can be dragged in the viewport.</p></div><label class="joint-control "><span class="joint-control-title"><strong>J8 · Pitch</strong><output>0<!-- -->°</output></span><input type="range" min="-90" max="90" step="1" aria-label="J8 · Pitch angle" value="0"/><span class="joint-scale"><span>-90<!-- -->°</span><span>local Y axis</span><span>+<!-- -->90<!-- -->°</span></span></label><label class="joint-control "><span class="joint-control-title"><strong>J9 · Roll</strong><output>0<!-- -->°</output></span><input type="range" min="-180" max="180" step="1" aria-label="J9 · Roll angle" value="0"/><span class="joint-scale"><span>-180<!-- -->°</span><span>local Z axis</span><span>+<!-- -->180<!-- -->°</span></span></label><button type="button" class="reset-joints">Reset both joints</button><p class="urdf-note">The viewer loads the original URDF, joint hierarchy, assembly transforms, materials, and CAD surfaces. Only the dense STL tessellation is optimized during browser rendering so the 293 MB source export does not block the page.</p></aside></div><div class="model-notes"><div><strong>2</strong><span>additional rotational axes</span></div><div><strong>Pitch + roll</strong><span>fixed housing, rotating output</span></div><div><strong>Open source</strong><span>CAD, simulation, and control code</span></div></div></div></section><section class="section container" id="experiments"><div class="section-heading"><p class="section-kicker">Experiments</p><h2>Matched-view Isaac Lab comparisons</h2><p>Each pair uses the same side-view camera transform, scene geometry, motion timing, and playback clock. The recordings contain only the rendered simulation—no Isaac Lab interface or data overlay.</p></div><div class="demo-list"><article class="demo"><div class="demo-heading"><div><p class="section-kicker">Paired simulation recording</p><h3>Cardiac contact attempt</h3></div><p>This matched recording uses the corrected horizontal-v6 wrist assembly. The run terminates before the planned reorientation sequence, so it is retained as a diagnostic contact attempt rather than a completed performance comparison.</p></div><div class="video-pair" data-sync-group="cardiac" aria-label="Cardiac contact attempt: synchronized 7-DoF and 9-DoF recordings"><figure><figcaption><strong>7-DoF baseline</strong><span>Rizon 4s</span></figcaption><img src="/media/results/mount-v6/posters/cardiac-7dof.png" alt="Cardiac contact attempt, 7-DoF baseline using the corrected horizontal-v6 mount" width="768" height="432" decoding="async"/></figure><figure><figcaption><strong>9-DoF system</strong><span>Rizon 4s + 2-DoF wrist</span></figcaption><img src="/media/results/mount-v6/posters/cardiac-9dof.png" alt="Cardiac contact attempt, 9-DoF augmented system using the corrected horizontal-v6 mount" width="768" height="432" decoding="async"/></figure></div><p class="phase-line">Contact approach · partial run · reorientation not reached</p></article><article class="demo"><div class="demo-heading"><div><p class="section-kicker">Paired simulation recording</p><h3>Near-to-far longitudinal scan</h3></div><p>The corrected-mount run scans 160 mm from the near to the far torso point, applies a −35° tilt and return, then rotates 90° about the probe axis. The active wrist reduces J1–J7 reorientation travel by 68.82% while both systems remain below the supplementary 5° orientation reference.</p></div><div class="video-pair" data-sync-group="longitudinal" aria-label="Near-to-far longitudinal scan: synchronized 7-DoF and 9-DoF recordings"><figure><figcaption><strong>7-DoF baseline</strong><span>Rizon 4s</span></figcaption><img src="/media/results/mount-v6/posters/near-to-far-7dof.png" alt="Near-to-far longitudinal scan, 7-DoF baseline using the corrected horizontal-v6 mount" width="768" height="432" decoding="async"/></figure><figure><figcaption><strong>9-DoF system</strong><span>Rizon 4s + 2-DoF wrist</span></figcaption><img src="/media/results/mount-v6/posters/near-to-far-9dof.png" alt="Near-to-far longitudinal scan, 9-DoF augmented system using the corrected horizontal-v6 mount" width="768" height="432" decoding="async"/></figure></div><p class="phase-line">160 mm scan · −35° tilt and return · axial 90°</p></article><article class="demo"><div class="demo-heading"><div><p class="section-kicker">Paired simulation recording</p><h3>Cross-waist lateral scan</h3></div><p>The corrected-mount run traverses 144 mm across the waist, applies a +30° tilt and return, then rotates 90° about the probe axis. J1–J7 reorientation travel falls by 84.58%; the active run exceeds the supplementary 5° orientation reference, so that limitation is reported with the result.</p></div><div class="video-pair" data-sync-group="waist" aria-label="Cross-waist lateral scan: synchronized 7-DoF and 9-DoF recordings"><figure><figcaption><strong>7-DoF baseline</strong><span>Rizon 4s</span></figcaption><img src="/media/results/mount-v6/posters/cross-waist-7dof.png" alt="Cross-waist lateral scan, 7-DoF baseline using the corrected horizontal-v6 mount" width="768" height="432" decoding="async"/></figure><figure><figcaption><strong>9-DoF system</strong><span>Rizon 4s + 2-DoF wrist</span></figcaption><img src="/media/results/mount-v6/posters/cross-waist-9dof.png" alt="Cross-waist lateral scan, 9-DoF augmented system using the corrected horizontal-v6 mount" width="768" height="432" decoding="async"/></figure></div><p class="phase-line">144 mm lateral scan · +30° tilt and return · axial 90°</p></article></div></section><section class="section results" id="results"><div class="container results-grid"><div class="results-copy"><p class="section-kicker">Results</p><h2>Motion and dynamics under matched starts</h2><p>The formal S2/S3 study compares a locked distal wrist with an active two-axis wrist using the same initial state and the same axial 0° → 90° → 0° trajectory. Metrics below report proximal dynamics separately from gravity-inclusive total motor torque.</p><p class="control-note">Six valid deterministic free-space trials · 2, 4, and 8 s one-way segments · max TCP error 0.092 mm / 0.038°</p></div><div class="metrics"><div class="metric-row"><div class="metric-title"><span>Proximal dynamic torque RMS</span><strong>97.8% lower</strong></div><div class="metric-value"><span>Locked</span><div class="track"><i style="width:100%"></i></div><code>1.00×</code></div><div class="metric-value nine"><span>Active</span><div class="track"><i style="width:2.2%"></i></div><code>0.022×</code></div></div><div class="metric-row"><div class="metric-title"><span>Proximal joint travel</span><strong>99.25% lower</strong></div><div class="metric-value"><span>Locked</span><div class="track"><i style="width:100%"></i></div><code>≈11.0 rad</code></div><div class="metric-value nine"><span>Active</span><div class="track"><i style="width:0.75%"></i></div><code>≈0.08 rad</code></div></div><div class="metric-row"><div class="metric-title"><span>Peak whole-system kinetic energy</span><strong>31.9% lower</strong></div><div class="metric-value"><span>Locked</span><div class="track"><i style="width:100%"></i></div><code>0.787 J</code></div><div class="metric-value nine"><span>Active</span><div class="track"><i style="width:68.1%"></i></div><code>0.536 J</code></div></div><div class="metric-row"><div class="metric-title"><span>Gravity-inclusive total motor torque</span><strong>increases 11.3–11.7%</strong></div><div class="metric-value"><span>Locked</span><div class="track"><i style="width:89.5%"></i></div><code>baseline</code></div><div class="metric-value nine"><span>Active</span><div class="track"><i style="width:100%"></i></div><code>higher</code></div></div></div></div></section><section class="section evidence" id="evidence"><div class="container"><div class="section-heading"><p class="section-kicker">Evidence library</p><h2>Mount variants, coverage, and new dynamics</h2><p>The selected panels below make the evidence trail readable without exposing author identity. They include the revised horizontal mount comparison, the CARE envelope, matched-start dynamics, and force traces from the contact scans.</p></div><div class="evidence-grid"><figure class="evidence-card evidence-wide"><img src="/media/results/mount-comparison.png" alt="CARE comparison of baseline vertical and new horizontal wrist mounts" loading="lazy"/><figcaption><strong>Mount comparison</strong><span>Baseline vertical vs. revised horizontal assembly; configuration comparison is reported as such.</span></figcaption></figure><figure class="evidence-card"><img src="/media/results/care-heatmap.png" alt="Contact-Anchored Reorientation Envelope heatmap" loading="lazy"/><figcaption><strong>CARE envelope</strong><span>Distal-weighted and arrival-aware strategies broaden the sampled feasible region.</span></figcaption></figure><figure class="evidence-card"><img src="/media/results/care-coverage.png" alt="CARE coverage as a function of proximal motion budget" loading="lazy"/><figcaption><strong>Coverage vs. motion budget</strong><span>8° budget coverage: 5.155%, 34.447%, 87.209%, and 94.964% across the four methods.</span></figcaption></figure><figure class="evidence-card"><img src="/media/results/s2-active.png" alt="Active-wrist dynamic torque decomposition" loading="lazy"/><figcaption><strong>S2 mechanism</strong><span>Signed proximal dynamic contributions with the distal wrist active.</span></figcaption></figure><figure class="evidence-card"><img src="/media/results/s3-speed.png" alt="S3 speed scaling comparison" loading="lazy"/><figcaption><strong>S3 speed scaling</strong><span>Dynamic torque falls with distal allocation while total motor torque remains a separate quantity.</span></figcaption></figure><figure class="evidence-card"><img src="/media/results/hydro15-force.png" alt="15 N hydroelastic force trace" loading="lazy"/><figcaption><strong>Contact scan trace</strong><span>Representative 15 N hydroelastic force trace; contact-task limitations remain documented.</span></figcaption></figure></div><div class="evidence-links"><a href="#methods">Evaluation protocol</a><a href="#methods">Measurement definitions</a><a href="#methods">Limitations</a></div></div></section><footer id="source"><div class="container footer-grid"><div class="contributors" id="contributors"><h2>Anonymous release</h2><p>Names, affiliations, and personal links are intentionally withheld for double-blind review. The page presents the artifact, evaluation protocol, and evidence only.</p></div><div class="source"><h2>Open-source resources</h2><ul class="source-links"><li><span>Code and simulation</span><span class="temporarily-unavailable" aria-disabled="true">Temporarily unavailable <small>during double-blind review</small></span></li><li><span>Mechanical design</span><span class="temporarily-unavailable" aria-disabled="true">Temporarily unavailable <small>during double-blind review</small></span></li></ul><p>CAD, Isaac Lab OSC experiments, evaluation data, and website.</p></div></div><div class="container footer-bottom"><span>RuggedizedWrist</span><span>Anonymous research project · 2026</span></div></footer></main><script src="/assets/site.js?v=20260916-path1" defer=""></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DistalShift: How Distal Redundancy Shapes Robot Arm Motion and Joint Loading</title>
+  <meta name="description" content="DistalShift is a two-degree-of-freedom distal wrist that localizes tool reorientation on a seven-DoF arm. Hardware studies measure proximal swept volume, joint loading, and task tracking.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,560;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="page-body" data-theme="night">
+  <header class="nav">
+    <a class="brand" href="#top">DistalShift</a>
+    <div class="nav-controls">
+      <button class="icon-button" type="button" data-outline aria-expanded="false" aria-controls="outline" title="Contents">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4.5h10M3 8h10M3 11.5h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <button class="icon-button" type="button" data-theme-toggle title="Switch theme">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M12.6 3.4l-1.1 1.1M4.5 11.5l-1.1 1.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav id="outline" class="outline" hidden>
+    <p>Contents</p>
+    <a href="#top">Title</a>
+    <a href="#abstract">Abstract</a>
+    <a href="#overview">Overview</a>
+    <a href="#video">Video</a>
+    <a href="#hardware">Hardware</a>
+    <a href="#recordings" data-level="2">Hardware recordings</a>
+    <a href="#simulation" data-level="2">Simulation</a>
+    <a href="#care">Reorientation coverage</a>
+    <a href="#results">Hardware results</a>
+    <a href="#fidelity" data-level="2">Task fidelity</a>
+    <a href="#discussion">Discussion</a>
+    <a href="#citation">Citation</a>
+  </nav>
+
+  <main class="page">
+    <header class="hero" id="top">
+      <p class="kicker">Two-DoF distal wrist · ICRA 2027 manuscript</p>
+      <h1>DistalShift</h1>
+      <p class="subtitle">How distal redundancy shapes robot arm motion and joint loading.</p>
+      <p class="authors">
+        Tian-Ao Ren<sup>1*</sup>,
+        Tongyu Wang<sup>1,2*</sup>,
+        Shixuan Zhao<sup>1</sup>,
+        Rohan Karunaratne<sup>1</sup>,
+        Tao Zhang<sup>1</sup>,
+        Rachel Thomasson<sup>1</sup>,
+        Mark Cutkosky<sup>1</sup>
+      </p>
+      <p class="affiliations">
+        <sup>1</sup> Department of Mechanical Engineering, Stanford University
+        &nbsp;·&nbsp;
+        <sup>2</sup> Department of Modern Mechanics, University of Science and Technology of China
+        <br>
+        * Equal contribution
+        &nbsp;·&nbsp;
+        <a href="mailto:tianao@stanford.edu">tianao@stanford.edu</a>,
+        <a href="mailto:tongyuu@stanford.edu">tongyuu@stanford.edu</a>,
+        <a href="mailto:tongyuw@mail.ustc.edu.cn">tongyuw@mail.ustc.edu.cn</a>
+      </p>
+      <div class="actions">
+        <a class="button primary" href="media/paper/distalshift.pdf">Paper PDF</a>
+        <a class="button" href="#video">Watch the video</a>
+        <a class="button" href="#citation">BibTeX</a>
+      </div>
+      <div class="stats">
+        <div>
+          <strong>44.5–95.8%</strong>
+          <span>lower reconstructed incremental proximal swept volume across five tasks</span>
+        </div>
+        <div>
+          <strong>18.9–89.4%</strong>
+          <span>lower baseline-subtracted proximal torque excursion</span>
+        </div>
+        <div>
+          <strong>48.4% / 29.8%</strong>
+          <span>lower peak and raw RMS arm-joint torque during contact roll</span>
+        </div>
+      </div>
+    </header>
+
+    <section id="abstract">
+      <div class="measure">
+        <h2>Abstract</h2>
+        <p class="lede">Seven-degree-of-freedom manipulators provide redundancy for six-dimensional tool-pose control, yet local tool reorientation can still require substantial proximal-arm motion.</p>
+        <p>We present a compact two-degree-of-freedom distal wrist that localizes tool reorientation near the endpoint. The Contact-Anchored Reorientation Envelope evaluates orientation coverage under a proximal-motion budget and supports comparisons of mounting and arrival strategies. Hardware experiments compare wrist-held and wrist-actuated configurations for ultrasound probe manipulation across five free-space and phantom-contact conditions, retaining the same installed hardware.</p>
+        <p>Wrist activation reduced mean reconstructed incremental proximal swept volume by 44.5–95.8% and baseline-subtracted torque excursion by 18.9–89.4%. During axial probe rotation in phantom contact, peak and RMS measured arm-joint torque decreased by 48.4% and 29.8%, respectively. These gains were task dependent and accompanied by increased orientation-tracking error. Complementary diagnostic simulations indicate lower whole-system absolute joint mechanical work than direct probe mounting, including the wrist joints’ contribution, despite higher proximal torque RMS.</p>
+      </div>
+    </section>
+
+    <section id="overview">
+      <h2>Overview</h2>
+      <div class="measure">
+        <p>DistalShift adds local tilt and axial rotation between a commercial 7-DoF arm and the tool. The same assembly is compared with the wrist held, so the proximal arm supplies the reorientation, and with the wrist actuated, so more of that reorientation stays near the probe.</p>
+      </div>
+      <figure>
+        <div class="frame"><img src="media/figures/overview.png" alt="Contact roll and contact pitch illustrations beside swept-volume and torque-excursion charts for locked 7-DoF and active 9-DoF wrists."></div>
+        <figcaption>Contact probe reorientation with a locked 7-DoF or active 9-DoF distal wrist. The charts show incremental proximal swept volume reconstructed from hardware trajectories and baseline-subtracted torque excursion. Bars are means; error bars are sample standard deviations, with n = 3 per condition.</figcaption>
+      </figure>
+    </section>
+
+    <section id="video">
+      <h2>Video</h2>
+      <div class="measure">
+        <p>The project video walks through the 7-DoF and 9-DoF comparison, first in simulation and then on the hardware used for the ultrasound-probe tasks.</p>
+      </div>
+      <figure>
+        <div class="stage hero-video">
+          <video controls playsinline preload="metadata" poster="media/posters/final.jpg">
+            <source src="media/videos/final.mp4" type="video/mp4">
+          </video>
+          <button class="icon-button" type="button" data-expand title="Enlarge video" aria-label="Enlarge video">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M6 13.5H2.5V10M10 13.5h3.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <figcaption>DistalShift project video.</figcaption>
+      </figure>
+    </section>
+
+    <section id="hardware">
+      <h2>Hardware</h2>
+      <div class="measure">
+        <p>The wrist is an add-on module between the robot flange and the tool. Joint 8 tilts the tool and joint 9 rotates it about the probe axis. In the ultrasound configuration, that axial joint is aligned with the acoustic axis. All reported hardware experiments used the transverse 90° mount. The arm, probe, and phantom stay the same when the wrist is held or actuated.</p>
+      </div>
+      <dl class="specs">
+        <dt>Arm</dt><dd>Flexiv Rizon 4s, seven proximal joints</dd>
+        <dt>Wrist</dt><dd>HighTorque HTDW-5047-36-NE and HTDW-4438-32-NE, 36:1 and 32:1</dd>
+        <dt>Ranges</dt><dd>±90° at joint 8 and ±180° at joint 9</dd>
+        <dt>Mass</dt><dd>720 g excluding the probe</dd>
+        <dt>Tool offset</dt><dd>290.4 mm from flange to the nominal contact point</dd>
+        <dt>Materials</dt><dd>Markforged Onyx base and mounts; Formlabs Rigid 4000 bracket, pulley, and connector</dd>
+        <dt>Probe</dt><dd>Butterfly iQ+ on an ABDFAN ultrasound-training phantom</dd>
+        <dt>Rates</dt><dd>Local wrist control at 500 Hz; host references and logging near 100 Hz</dd>
+      </dl>
+      <figure class="gallery">
+        <img src="media/figures/motion-7dof-pitch.png" alt="Locked wrist during a pitch motion over the ultrasound phantom.">
+        <img src="media/figures/motion-9dof-pitch.png" alt="Active wrist during a pitch motion over the ultrasound phantom.">
+        <img src="media/figures/motion-7dof-roll.png" alt="Locked wrist during axial probe rotation.">
+        <img src="media/figures/motion-9dof-roll.png" alt="Active wrist during axial probe rotation, with the proximal arm more upright.">
+        <figcaption>Hardware stills from pitch and axial-rotation sequences. With the wrist active, the proximal arm remains closer to its starting posture while the tool changes orientation.</figcaption>
+      </figure>
+
+      <h3 id="recordings">Hardware recordings</h3>
+      <div class="measure">
+        <p>Each pair shows the same class of scripted probe motion with the wrist held and with the wrist actuated. Free-space pitch and roll leave the probe off the phantom. Contact pitch keeps the probe against the phantom while the tilt follows the reference.</p>
+      </div>
+      <div class="pairs">
+        <div>
+          <div class="pair">
+            <div>
+              <p class="clip-label">Free-space pitch · locked</p>
+              <div class="stage">
+                <video controls playsinline preload="metadata" poster="media/posters/pitch-locked.jpg"><source src="media/videos/pitch-locked.mp4" type="video/mp4"></video>
+                <button class="icon-button" type="button" data-expand title="Enlarge video" aria-label="Enlarge free-space pitch, locked"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M6 13.5H2.5V10M10 13.5h3.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+            <div>
+              <p class="clip-label">Free-space pitch · active</p>
+              <div class="stage">
+                <video controls playsinline preload="metadata" poster="media/posters/pitch-active.jpg"><source src="media/videos/pitch-active.mp4" type="video/mp4"></video>
+                <button class="icon-button" type="button" data-expand title="Enlarge video" aria-label="Enlarge free-space pitch, active"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M6 13.5H2.5V10M10 13.5h3.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="pair">
+            <div>
+              <p class="clip-label">Free-space roll · locked</p>
+              <div class="stage">
+                <video controls playsinline preload="metadata" poster="media/posters/roll-locked.jpg"><source src="media/videos/roll-locked.mp4" type="video/mp4"></video>
+                <button class="icon-button" type="button" data-expand title="Enlarge video" aria-label="Enlarge free-space roll, locked"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M6 13.5H2.5V10M10 13.5h3.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+            <div>
+              <p class="clip-label">Free-space roll · active</p>
+              <div class="stage">
+                <video controls playsinline preload="metadata" poster="media/posters/roll-active.jpg"><source src="media/videos/roll-active.mp4" type="video/mp4"></video>
+                <button class="icon-button" type="button" data-expand title="Enlarge video" aria-label="Enlarge free-space roll, active"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M6 13.5H2.5V10M10 13.5h3.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="pair">
+            <div>
+              <p class="clip-label">Contact pitch · locked</p>
+              <div class="stage">
+                <video controls playsinline preload="metadata" poster="media/posters/contact-pitch-locked.jpg"><source src="media/videos/contact-pitch-locked.mp4" type="video/mp4"></video>
+                <button class="icon-button" type="button" data-expand title="Enlarge video" aria-label="Enlarge contact pitch, locked"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M6 13.5H2.5V10M10 13.5h3.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+            <div>
+              <p class="clip-label">Contact pitch · active</p>
+              <div class="stage">
+                <video controls playsinline preload="metadata" poster="media/posters/contact-pitch-active.jpg"><source src="media/videos/contact-pitch-active.mp4" type="video/mp4"></video>
+                <button class="icon-button" type="button" data-expand title="Enlarge video" aria-label="Enlarge contact pitch, active"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M6 13.5H2.5V10M10 13.5h3.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="simulation">Simulation</h3>
+      <div class="measure">
+        <p>The same probe motion is also compared in simulation. The 9-DoF model keeps the positioning arm quieter while the distal wrist supplies the orientation change.</p>
+      </div>
+      <div class="pair">
+        <div>
+          <p class="clip-label">Simulation · 7-DoF</p>
+          <div class="stage">
+            <video controls playsinline preload="metadata" poster="media/posters/sim-locked.jpg"><source src="media/videos/sim-locked.mp4" type="video/mp4"></video>
+            <button class="icon-button" type="button" data-expand title="Enlarge video" aria-label="Enlarge 7-DoF simulation"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M6 13.5H2.5V10M10 13.5h3.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+        <div>
+          <p class="clip-label">Simulation · 9-DoF</p>
+          <div class="stage">
+            <video controls playsinline preload="metadata" poster="media/posters/sim-active.jpg"><source src="media/videos/sim-active.mp4" type="video/mp4"></video>
+            <button class="icon-button" type="button" data-expand title="Enlarge video" aria-label="Enlarge 9-DoF simulation"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M6 13.5H2.5V10M10 13.5h3.5V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="care">
+      <h2>Reorientation coverage</h2>
+      <div class="measure">
+        <p>The Contact-Anchored Reorientation Envelope asks which probe orientations are reachable at a fixed torso contact when proximal joint motion, joint limits, clearance, and pose tolerance are bounded. It is a kinematic capability check, not a measure of force tracking or continuous trajectory feasibility.</p>
+        <p>On the 0° assembly, sampled coverage was 6.74%, 29.90%, 71.67%, and 88.50% for locked 7-DoF, generic 9-DoF, distal-weighted 9-DoF, and the proposed arrival-aware strategy. On the 90° assembly the corresponding values were 5.15%, 34.45%, 87.21%, and 94.96%. Coverage therefore depends on how the extra joints are used and how the arm arrives, not only on adding two degrees of freedom. Proposed-method coverage was 6.46 percentage points higher for the 90° assembly.</p>
+      </div>
+      <figure>
+        <div class="frame"><img src="media/figures/care.png" alt="CARE comparison of 0 degree and 90 degree mounts, including coverage heatmaps and bar charts for four inverse-kinematics methods."></div>
+        <figcaption>CARE comparison of the original 0° and transverse 90° mounts. Heatmaps use a common 0–100% scale. Archived seeds and hardware revisions differ, so this is a complete-assembly comparison rather than an isolated mount-angle ablation.</figcaption>
+      </figure>
+    </section>
+
+    <section id="results">
+      <h2>Hardware results</h2>
+      <div class="measure">
+        <p>Five scripted conditions compare the locked and active wrist on the same installed hardware, with three technical repetitions each. Free-space tasks are an axial 0°→90°→0° turn and a 100 mm square with midpoint pitch and corner roll. Contact tasks hold a 15 N processed-compression setpoint during axial roll or during ±15° and ±30° pitch. Swept volume is reconstructed from recorded proximal trajectories on the arm collision model. It excludes the initial occupancy and is not a direct volume measurement.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <caption class="caption">Spatial and measured-load statistics, mean ± sample SD, n = 3. Swept volume uses the executed interval. Peak torque, raw RMS, and excursion use motion samples only.</caption>
+          <thead>
+            <tr>
+              <th>Task</th><th>Wrist</th><th>Volume (L)</th><th>Peak (N·m)</th><th>Raw RMS (N·m)</th><th>Excursion (N·m)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Free axial</td><td>Locked</td><td>27.28 ± 0.03</td><td>53.10 ± 0.07</td><td>18.932 ± 0.005</td><td>23.226 ± 0.027</td></tr>
+            <tr><td>Free axial</td><td>Active</td><td>1.25 ± 0.01</td><td>30.24 ± 0.08</td><td>14.322 ± 0.015</td><td>2.454 ± 0.052</td></tr>
+            <tr><td>Free square</td><td>Locked</td><td>70.84 ± 0.04</td><td>65.89 ± 0.10</td><td>19.426 ± 0.009</td><td>21.816 ± 0.080</td></tr>
+            <tr><td>Free square</td><td>Active</td><td>30.03 ± 0.09</td><td>56.22 ± 0.04</td><td>19.159 ± 0.022</td><td>11.691 ± 0.145</td></tr>
+            <tr><td>Contact roll</td><td>Locked</td><td>26.80 ± 0.05</td><td>48.94 ± 0.99</td><td>16.362 ± 0.012</td><td>22.491 ± 0.044</td></tr>
+            <tr><td>Contact roll</td><td>Active</td><td>1.13 ± 0.01</td><td>25.27 ± 0.09</td><td>11.484 ± 0.007</td><td>2.729 ± 0.057</td></tr>
+            <tr><td>Contact pitch ±15°</td><td>Locked</td><td>14.19 ± 0.02</td><td>57.63 ± 0.43</td><td>21.513 ± 0.007</td><td>5.490 ± 0.210</td></tr>
+            <tr><td>Contact pitch ±15°</td><td>Active</td><td>7.85 ± 0.01</td><td>55.54 ± 0.19</td><td>21.490 ± 0.011</td><td>4.450 ± 0.024</td></tr>
+            <tr><td>Contact pitch ±30°</td><td>Locked</td><td>27.78 ± 0.04</td><td>60.88 ± 0.66</td><td>21.651 ± 0.006</td><td>9.948 ± 0.039</td></tr>
+            <tr><td>Contact pitch ±30°</td><td>Active†</td><td>15.41 ± 0.01</td><td>58.90 ± 0.31</td><td>21.781 ± 0.007</td><td>7.364 ± 0.108</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">† Active ±30° contact pitch includes internal pauses. Pauses stay in the swept-volume interval and are excluded from the motion-only torque columns.</p>
+
+      <figure>
+        <div class="frame"><img src="media/figures/torque.png" alt="Measured proximal torque for contact roll and the square task, plus per-joint peak torque."></div>
+        <figcaption>Measured proximal torque. Raw joint-2 traces for contact roll and the square task are from repeat 1, without smoothing or time warping. The bar chart is per-joint contact-roll peak torque, mean ± sample SD, n = 3. Joint 2 carries the largest absolute load and does not represent all seven joints.</figcaption>
+      </figure>
+      <figure>
+        <div class="frame"><img src="media/figures/contact-roll.png" alt="Contact-roll joint torque, peak torque, force regulation, and orientation tracking for locked and active wrists."></div>
+        <figcaption>Contact roll in more detail. Peak proximal torque falls from 48.94 ± 0.99 N·m to 25.27 ± 0.09 N·m. Processed compression stays near the 15 N setpoint, while forward-kinematics orientation error is larger with the wrist active.</figcaption>
+      </figure>
+
+      <h3 id="fidelity">Task fidelity</h3>
+      <div class="measure">
+        <p>The spatial and load reductions come with a tracking cost. Orientation error from arm–wrist forward kinematics was larger for the active wrist in every condition. Position error is the free-space forward-kinematics error, or the tangential error during contact. Force error is a processed flange-sensor estimate, not an independent measurement. The ±30° contact-pitch trials also contained 2.43 s of internal pauses.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <caption class="caption">Motion-window means over three trials. These are not peak errors or independently measured absolute accuracies.</caption>
+          <thead>
+            <tr>
+              <th>Task</th><th>Wrist</th><th>Position (mm)</th><th>Orientation (°)</th><th>Force (N)</th><th>Pause (s)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Free axial</td><td>Locked</td><td>0.635</td><td>1.469</td><td>—</td><td>0.00</td></tr>
+            <tr><td>Free axial</td><td>Active</td><td>0.536</td><td>3.264</td><td>—</td><td>0.00</td></tr>
+            <tr><td>Free square</td><td>Locked</td><td>0.542</td><td>0.341</td><td>—</td><td>0.00</td></tr>
+            <tr><td>Free square</td><td>Active</td><td>1.259</td><td>1.423</td><td>—</td><td>0.00</td></tr>
+            <tr><td>Contact roll</td><td>Locked</td><td>0.354</td><td>0.657</td><td>0.176</td><td>0.00</td></tr>
+            <tr><td>Contact roll</td><td>Active</td><td>0.611</td><td>1.614</td><td>0.126</td><td>0.00</td></tr>
+            <tr><td>Contact pitch 15°</td><td>Locked</td><td>0.432</td><td>0.261</td><td>0.209</td><td>0.00</td></tr>
+            <tr><td>Contact pitch 15°</td><td>Active</td><td>1.108</td><td>0.729</td><td>0.206</td><td>0.00</td></tr>
+            <tr><td>Contact pitch 30°</td><td>Locked</td><td>0.614</td><td>0.476</td><td>0.605</td><td>0.00</td></tr>
+            <tr><td>Contact pitch 30°</td><td>Active†</td><td>1.596</td><td>1.182</td><td>1.059</td><td>2.43</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="discussion">
+      <div class="measure">
+        <h2>Discussion</h2>
+        <p>Distal redundancy moves reorientation toward the tool and reduces proximal motion. In the square task, proximal travel stayed similar during translation and fell during pitch and especially roll. Free-space axial rotation and contact roll also reduced measured peak and raw-RMS proximal torque. Pitch and the composite square kept the swept-volume and torque-excursion benefits with little change in raw RMS. A smaller motion envelope therefore does not, by itself, imply a comparable drop in raw joint torque.</p>
+        <p>The add-on wrist works with the arm’s existing Cartesian motion–force controller. Contact trials preserved force regulation. Larger active orientation error points to coordinated tracking and wrist–tool mounting as the next design constraints. The same-setting repetitions do not establish cross-workspace generalization, whole-system energy savings, or clinical imaging quality.</p>
+      </div>
+    </section>
+
+    <section id="citation">
+      <div class="measure">
+        <h2>Citation</h2>
+        <p>This manuscript has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible.</p>
+      </div>
+      <pre class="bib" id="bibtex">@misc{ren2026distalshift,
+  title = {DistalShift: How Distal Redundancy Shapes Robot Arm Motion and Joint Loading},
+  author = {Ren, Tian-Ao and Wang, Tongyu and Zhao, Shixuan and Karunaratne, Rohan and Zhang, Tao and Thomasson, Rachel and Cutkosky, Mark},
+  year = {2026},
+  note = {Manuscript submitted to the IEEE for possible publication},
+  url = {https://distalshift.github.io/}
+}</pre>
+      <div class="actions">
+        <button class="button" type="button" data-copy>Copy BibTeX</button>
+        <a class="button" href="media/paper/distalshift.pdf">Download PDF</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>DistalShift · Stanford Mechanical Engineering and USTC Modern Mechanics.</p>
+    </footer>
+  </main>
+
+  <div id="player" class="modal" hidden>
+    <button class="icon-button" type="button" data-close aria-label="Close video">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </button>
+    <video controls playsinline></video>
+  </div>
+  <script src="assets/site.js"></script>
+</body>
+</html>
